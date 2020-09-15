@@ -1,0 +1,21 @@
+{
+  "name": "sudoku",
+  "version": "0.0.1",
+  "description": "SUDOku is a general purpose furry bot for discord",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fursudo",
+    "discord",
+    "furry",
+    "bot"
+  ],
+  "author": "furSUDO",
+  "license": "ISC"
+}
