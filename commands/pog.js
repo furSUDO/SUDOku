@@ -1,20 +1,21 @@
 const jsonfile = require ('jsonfile');
 const fs = require('fs');
 const Canvas = require('canvas');
+const {registerFont} = require('canvas');
 const Discord = require('discord.js');
 
-const Rajdhani = new Font('gubblebum', fontFile('./fonts/Rajdhani-Bold.ttf'));
+registerFont('./fonts/Rajdhani-Bold.ttf', { family: 'Rajdhani' })
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
 const applyText = (canvas, text) => {
 	const ctx = canvas.getContext('2d');
 
 	// Declare a base size of the font
-	let fontSize = 70;
+	let fontSize = 200;
 
 	do {
 		// Assign the font to the context and decrement it so it can be measured again
-		ctx.font = `${fontSize -= 10}px sans-serif`;
+		ctx.font = `${fontSize -= 10}px Rajdhani`;
 		// Compare pixel width of the text to the canvas minus the approximate avatar size
 	} while (ctx.measureText(text).width > canvas.width - 300);
 
@@ -45,19 +46,19 @@ module.exports = {
 
 		// Slightly smaller text placed above the member's display name
 		//ctx.font = '28px sans-serif';
-		let memberUsername = `${message.author.username}, You are currently Level;`
+		let memberUsername = `${message.author.username}`
 		ctx.font = applyText(canvas, memberUsername);
 		ctx.fillStyle = '#ffffff';
-		ctx.fillText(memberUsername, canvas.width / 2.5, canvas.height / 3.5);
+		ctx.fillText(memberUsername, canvas.width / 2.7, canvas.height / 1.7);
 
 
 		// Select the font size and type from one of the natively available fonts
 		//ctx.font = applyText(canvas, member.displayName);
-		ctx.font = '28px sans-serif';
+		ctx.font = '40px Rajdhani';
 		// Select the style that will be used to fill the text in
 		ctx.fillStyle = '#ffffff';
 		// Actually fill the text with a solid color
-		ctx.fillText(`${userStats.level}`, canvas.width / 2.5, canvas.height / 1.8);
+		ctx.fillText(`You are currently Level ${userStats.level}`, canvas.width / 2.7, canvas.height / 1.2);
 		
 		
 		ctx.beginPath();
