@@ -2,7 +2,8 @@
 
 node_modules/
 
-*.json
+config.json
+levels.json
 
 # compiled output
 /dist
