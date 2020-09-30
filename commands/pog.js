@@ -63,7 +63,7 @@ module.exports = {
 		
 		ctx.beginPath();
 		ctx.arc(125, 125, 100, 0, 2 * Math.PI, false);
-		ctx.fillStyle = '#f0f0f0';
+		ctx.fillStyle = '#d4d4d4';
 		ctx.fill();
 		ctx.lineWidth = 10;
 		ctx.strokeStyle = '#ffffff';
