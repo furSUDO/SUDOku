@@ -16,7 +16,6 @@ module.exports = {
                         .then(collected => {
                             message.channel.send(`>>> editing ${collected.first().content}`);
                             sent.delete();
-                            message.delete();
                         })
                         .catch(collected => {
                             message.channel.send(`>>> You didn't provide me with an ID in time,\noperation canceled`);
