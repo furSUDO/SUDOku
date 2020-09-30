@@ -3,6 +3,7 @@ const fs = require('fs');
 const Canvas = require('canvas');
 const Discord = require('discord.js');
 
+const Rajdhani = new Font('gubblebum', fontFile('./fonts/Rajdhani-Bold.ttf'));
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
 const applyText = (canvas, text) => {
