@@ -24,7 +24,7 @@ client.once('ready', () => {
 	console.log('Ready!');
 });
 
-client.on('message', message => {
+client.on('message', async message => {
 	if (message.author.bot) return;
 
     if (message.guild.id in stats === false) {
@@ -41,24 +41,24 @@ client.on('message', message => {
     }
     
     const userStats = guildStats[message.author.id]
-    if (Date.now()-userStats.last_message > 60000) {
-        
-            userStats.xp += Math.floor(Math.random()*7)+8;
-            userStats.last_message = Date.now();
-        
-            const xpToNextLevel = 5 * Math.pow(userStats.level,2)+50*userStats.level+100;
-            if (userStats.xp >= xpToNextLevel) {
-                userStats.level++;
-                userStats.xp = userStats.xp - xpToNextLevel;
-                message.channel.send(`${message.author.username} has reached level ${userStats.level}`)
-            }
-        
-            jsonfile.writeFileSync('levels.json',stats)
-            
-            console.log(`${message.author.username} now has ${userStats.xp}`);
-            console.log(`${xpToNextLevel} needed to lvl up`);
-        
-    }
+    //if (Date.now()-userStats.last_message > 60000) {
+    //    
+    //        userStats.xp += Math.floor(Math.random()*7)+8;
+    //        userStats.last_message = Date.now();
+    //    
+    //        const xpToNextLevel = 5 * Math.pow(userStats.level,2)+50*userStats.level+100;
+    //        if (userStats.xp >= xpToNextLevel) {
+    //            userStats.level++;
+    //            userStats.xp = userStats.xp - xpToNextLevel;
+    //            message.channel.send(`${message.author.username} has reached level ${userStats.level}`)
+    //        }
+    //    
+    //        jsonfile.writeFileSync('levels.json',stats)
+    //        
+    //        console.log(`${message.author.username} now has ${userStats.xp}`);
+    //        console.log(`${xpToNextLevel} needed to lvl up`);
+    //    
+    //}
 	console.log(message.content);
 	const regex2 = /(?=.*<@!480495309491798037>)/im;
 	const regex = /(?=.*SUDO)(?=.*is)(?=.*cute)/im;
@@ -95,6 +95,8 @@ client.on('message', message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
+
+    
 
 	const command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
