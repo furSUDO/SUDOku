@@ -60,7 +60,7 @@ client.on('message', message => {
         
     }
 	console.log(message.content);
-	//const regex2 = /(?=.*<@!480495309491798037>)/im;
+	const regex2 = /(?=.*<@!480495309491798037>)/im;
 	const regex = /(?=.*SUDO)(?=.*is)(?=.*cute)/im;
 	let m;
 	if (!message.guild) return;
