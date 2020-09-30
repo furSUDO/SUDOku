@@ -58,10 +58,20 @@ module.exports = {
 		// Actually fill the text with a solid color
 		ctx.fillText(`${userStats.level}`, canvas.width / 2.5, canvas.height / 1.8);
 		
+		
+		ctx.beginPath();
+		ctx.arc(125, 125, 100, 0, 2 * Math.PI, false);
+		ctx.fillStyle = '#f0f0f0';
+		ctx.fill();
+		ctx.lineWidth = 10;
+		ctx.strokeStyle = '#ffffff';
+		ctx.stroke();
+
+
 		// Pick up the pen
 		ctx.beginPath();
 		// Start the arc to form a circle
-		ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
+		ctx.arc(125, 125, 95, 0, Math.PI * 2, true);
 		// Put the pen down
 		ctx.closePath();
 		// Clip off the region you drew on
