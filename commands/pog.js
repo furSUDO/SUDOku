@@ -44,7 +44,10 @@ module.exports = {
 		const guildStats = stats[message.guild.id];
 		const userStats = guildStats[message.author.id]
 
-		const backgroundSRC = userStats.background;
+		if (userStats.background === undefined) {
+			userStats.background = 0;
+		}
+		const backgroundSRC = `./assets/background${userStats.background}.png`;
 		message.channel.send(`You are using ${backgroundSRC}`)
 
 		//message.reply(`You are currently level ${userStats.level}`)
@@ -52,7 +55,7 @@ module.exports = {
 		const canvas = Canvas.createCanvas(700, 250);
 		const ctx = canvas.getContext('2d');
 		// we need to await the Promise gets resolved since loading of Image is async
-		const background = await Canvas.loadImage('./assets/background1.png');
+		const background = await Canvas.loadImage(backgroundSRC);
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);  
 
 
