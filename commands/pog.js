@@ -6,6 +6,15 @@ const Discord = require('discord.js');
 
 registerFont('./fonts/Rajdhani-Bold.ttf', { family: 'Rajdhani' })
 
+const displayName = (message) => {
+	const dispName = message.guild.member(message.author).nickname
+	if (dispName === null) {
+		return message.author.username
+	} else {
+		return dispName
+	}
+}
+
 // Pass the entire Canvas object because you'll need to access its width, as well its context
 const applyText = (canvas, text) => {
 	const ctx = canvas.getContext('2d');
@@ -46,7 +55,7 @@ module.exports = {
 
 		// Slightly smaller text placed above the member's display name
 		//ctx.font = '28px sans-serif';
-		let memberUsername = `${message.author.username}`
+		let memberUsername = `${displayName(message)}`
 		ctx.font = applyText(canvas, memberUsername);
 		ctx.fillStyle = '#ffffff';
 		ctx.fillText(memberUsername, canvas.width / 2.7, canvas.height / 1.7);
