@@ -8,11 +8,7 @@ registerFont('./fonts/Rajdhani-Bold.ttf', { family: 'Rajdhani' })
 
 const displayName = (message) => {
 	const dispName = message.guild.member(message.author).nickname
-	if (dispName === null) {
-		return message.author.username
-	} else {
-		return dispName
-	}
+	return dispName === null ? message.author.username : dispName;
 }
 
 // Pass the entire Canvas object because you'll need to access its width, as well its context
