@@ -1,9 +1,11 @@
+const Discord = require('discord.js');
+
 module.exports = {
 	name: 'help',
 	description: 'displays a list of active commands',
 	cooldown: 5,
 	execute(message) {
-		const exampleEmbed = new Discord.MessageEmbed()
+		const helpEmbed = new Discord.MessageEmbed()
     	    .setColor('#69388')
             .setTitle("e621 search for tag(s) "+title)
             .setImage(file.url)
@@ -16,6 +18,6 @@ module.exports = {
             .setTimestamp()
             .setFooter('Made by SUDO#4072', 'https://cdn.discordapp.com/attachments/756644176795533334/761154213019254784/WOBBLY_ICON_BASE.gif');
             
-            message.channel.send(exampleEmbed);
+            message.channel.send(helpEmbed);
 	},
 };
