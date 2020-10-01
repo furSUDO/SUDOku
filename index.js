@@ -70,28 +70,28 @@ client.on('message', message => {
         
     }
 	console.log(message.content);
-	const regex2 = /(?=.*<@!480495309491798037>)/im;
-	const regex = /(?=.*SUDO)(?=.*is)(?=.*cute)/im;
-	let m;
-	if (!message.guild) return;
-	if ((m = regex.exec(message.content)) !== null) {
-		message.delete();
-		let channel = message.channel;
-		channel.createInvite({unique: true}).then(invite => {
-			message.author.send(`You have been kicked from the server for calling SUDO cute.\nHere is a link to join back ${invite}`);
-		}).catch((err) => {
-			
-		});
-		message.reply
-		message.member.kick().then((member) => {
-			// Successmessage
-			message.channel.send(`Nuuuuu! >:C\n${member} was kicked for calling SUDO cute`);
-			message.channel.send(`<:SUDO_L_Knife_1:756994302621515786><:SUDO_L_Knife_2:756994315515068486>\n<:SUDO_L_Knife_3:756994334108155995><:SUDO_L_Knife_4:756994347550900275>`);
-        }).catch(() => {
-             // Failmessage
-            console.log("oh shit oh fuck");
-        });
-	}
+	//const regex2 = /(?=.*<@!480495309491798037>)/im;
+	//const regex = /(?=.*SUDO)(?=.*is)(?=.*cute)/im;
+	//let m;
+	//if (!message.guild) return;
+	//if ((m = regex.exec(message.content)) !== null) {
+	//	message.delete();
+	//	let channel = message.channel;
+	//	channel.createInvite({unique: true}).then(invite => {
+	//		message.author.send(`You have been kicked from the server for calling SUDO cute.\nHere is a link to join back ${invite}`);
+	//	}).catch((err) => {
+	//		
+	//	});
+	//	message.reply
+	//	message.member.kick().then((member) => {
+	//		// Successmessage
+	//		message.channel.send(`Nuuuuu! >:C\n${member} was kicked for calling SUDO cute`);
+	//		message.channel.send(`<:SUDO_L_Knife_1:756994302621515786><:SUDO_L_Knife_2:756994315515068486>\n<:SUDO_L_Knife_3:756994334108155995><:SUDO_L_Knife_4:756994347550900275>`);
+    //    }).catch(() => {
+    //         // Failmessage
+    //        console.log("oh shit oh fuck");
+    //    });
+	//}
 
 	//if ((m = regex.exec(message.content)) !== null) {
 	//	let channel = message.channel;
