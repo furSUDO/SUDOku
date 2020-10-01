@@ -7,7 +7,7 @@ const Discord = require('discord.js');
 registerFont('./fonts/Rajdhani-Bold.ttf', { family: 'Rajdhani' })
 
 const displayName = (message) => {
-	const dispName = message.guild.member(message.author).nickname
+	const dispName = message.member.nickname
 	return dispName === null ? message.author.username : dispName;
 }
 
