@@ -43,6 +43,10 @@ module.exports = {
 		}
 		const guildStats = stats[message.guild.id];
 		const userStats = guildStats[message.author.id]
+
+		const backgroundSRC = userStats.background;
+		message.channel.send(`You are using ${backgroundSRC}`)
+
 		//message.reply(`You are currently level ${userStats.level}`)
 		
 		const canvas = Canvas.createCanvas(700, 250);
