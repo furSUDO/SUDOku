@@ -46,32 +46,34 @@ module.exports = {
 		const backgroundSRC = `./assets/background${userStats.background}.png`;
 		message.channel.send(`You are using ${backgroundSRC}`)
 
-		//message.reply(`You are currently level ${userStats.level}`)
 		
 		const canvas = Canvas.createCanvas(700, 250);
 		const ctx = canvas.getContext('2d');
-		// we need to await the Promise gets resolved since loading of Image is async
 		const background = await Canvas.loadImage(backgroundSRC);
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);  
 
+		ctx.save();
 
-
-		// Slightly smaller text placed above the member's display name
-		//ctx.font = '28px sans-serif';
+		
 		let memberUsername = `${displayName(message)}`
 		ctx.font = applyText(canvas, memberUsername);
 		ctx.fillStyle = '#ffffff';
+		ctx.shadowOffsetX = 0;
+		ctx.shadowOffsetY = 0;
+		ctx.shadowColor = "rgba(0,0,0,0.5)";
+		ctx.shadowBlur = 7;
 		ctx.fillText(memberUsername, canvas.width / 2.7, canvas.height / 1.7);
 
 
-		// Select the font size and type from one of the natively available fonts
-		//ctx.font = applyText(canvas, member.displayName);
 		ctx.font = '40px Rajdhani';
-		// Select the style that will be used to fill the text in
 		ctx.fillStyle = '#ffffff';
-		// Actually fill the text with a solid color
+		ctx.shadowOffsetX = 0;
+		ctx.shadowOffsetY = 0;
+		ctx.shadowColor = "rgba(0,0,0,0.5)";
+		ctx.shadowBlur = 7;
 		ctx.fillText(`You are currently Level ${userStats.level}`, canvas.width / 2.7, canvas.height / 1.2);
 		
+		ctx.restore();
 		
 		ctx.beginPath();
 		ctx.arc(125, 125, 100, 0, 2 * Math.PI, false);
@@ -82,17 +84,11 @@ module.exports = {
 		ctx.stroke();
 
 
-		// Pick up the pen
 		ctx.beginPath();
-		// Start the arc to form a circle
 		ctx.arc(125, 125, 95, 0, Math.PI * 2, true);
-		// Put the pen down
 		ctx.closePath();
-		// Clip off the region you drew on
 		ctx.clip();
-		// Wait for Canvas to load the image
 		const avatar = await Canvas.loadImage(message.author.displayAvatarURL({ format: 'png' }));
-		// Draw a shape onto the main canvas
 		ctx.drawImage(avatar, 25, 25, 200, 200);
 		const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'test.png');
 		message.reply(``, attachment);
