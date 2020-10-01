@@ -10,9 +10,9 @@ client.commands = new Discord.Collection();
 const displayName = (message) => {
 	const dispName = message.guild.member(message.author).nickname
 	if (dispName === null) {
-		return message.author.username
+		return message.author.username;
 	} else {
-		return dispName
+		return dispName;
 	}
 }
 
