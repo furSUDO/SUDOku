@@ -6,6 +6,16 @@ const jsonfile = require ('jsonfile');
 const client = new Discord.Client({partials: ['MESSAGE','CHANNEL','REACTION']});
 client.commands = new Discord.Collection();
 
+//code to return DisplayName/username were needed
+const displayName = (message) => {
+	const dispName = message.guild.member(message.author).nickname
+	if (dispName === null) {
+		return message.author.username
+	} else {
+		return dispName
+	}
+}
+
 var stats ={};
 if (fs.existsSync('levels.json')) {
     stats = jsonfile.readFileSync('levels.json')
@@ -50,12 +60,12 @@ client.on('message', async message => {
     //        if (userStats.xp >= xpToNextLevel) {
     //            userStats.level++;
     //            userStats.xp = userStats.xp - xpToNextLevel;
-    //            message.channel.send(`${message.author.username} has reached level ${userStats.level}`)
+    //            message.channel.send(`${displayName} has reached level ${userStats.level}`)
     //        }
     //    
     //        jsonfile.writeFileSync('levels.json',stats)
     //        
-    //        console.log(`${message.author.username} now has ${userStats.xp}`);
+    //        console.log(`${displayName} now has ${userStats.xp}`);
     //        console.log(`${xpToNextLevel} needed to lvl up`);
     //    
     //}
