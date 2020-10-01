@@ -8,7 +8,7 @@ client.commands = new Discord.Collection();
 
 //code to return DisplayName/username were needed
 const displayName = (message) => {
-	const dispName = message.guild.member(message.author).nickname;
+	const dispName = message.member.nickname;
 	return dispName === null ? message.author.username : dispName;
 	
 }
