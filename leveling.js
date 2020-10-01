@@ -58,7 +58,8 @@ client.on('message', async message => {
         guildStats[message.author.id] = {
             xp: 0,
             level: 0,
-            last_message: 0
+			last_message: 0,
+			background: 0
         };        
     }
     
