@@ -16,6 +16,11 @@ const displayName = (message) => {
 	}
 }
 
+var settings={};
+if (fs.existsSync('settings.json')) {
+	settings = jsonfile.readFileSync('settings.json')
+}
+
 var stats ={};
 if (fs.existsSync('levels.json')) {
     stats = jsonfile.readFileSync('levels.json')
@@ -36,6 +41,13 @@ client.once('ready', () => {
 
 client.on('message', async message => {
 	if (message.author.bot) return;
+
+	if (message.guild.id in settings === false) {
+        settings[message.guild.id]={
+			nsfw: 0,
+			newsUpdates: 0,
+		};
+    }
 
     if (message.guild.id in stats === false) {
         stats[message.guild.id]={};
