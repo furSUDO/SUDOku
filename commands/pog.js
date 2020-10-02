@@ -38,7 +38,6 @@ module.exports = {
 			userStats.background = 0;
 		}
 		const backgroundSRC = `./assets/background${userStats.background}.png`;
-		message.channel.send(`You are using ${backgroundSRC}`)
 
 		
 		const canvas = Canvas.createCanvas(700, 250);
@@ -85,6 +84,6 @@ module.exports = {
 		const avatar = await Canvas.loadImage(message.author.displayAvatarURL({ format: 'png' }));
 		ctx.drawImage(avatar, 25, 25, 200, 200);
 		const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'test.png');
-		message.reply(``, attachment);
+		message.reply(attachment);
 	}
 };
