@@ -18,7 +18,7 @@ module.exports = {
 		if (args=='') {
 			message.reply("You haven't selected a background.\nPlease choose a number between ``0 and 12``")
 		} else {
-			if (args >= 0 && <= 15) {userStats.background = args;jsonfile.writeFileSync('levels.json',stats);}
+			if (args >= 0 && args <= 15) {userStats.background = args;jsonfile.writeFileSync('levels.json',stats);}
 			else{message.reply(`${args} is not a number between 0 and 15`)};
 		}
 	},
