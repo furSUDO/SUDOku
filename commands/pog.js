@@ -11,20 +11,14 @@ const displayName = (message) => {
 	return dispName === null ? message.author.username : dispName;
 }
 
-// Pass the entire Canvas object because you'll need to access its width, as well its context
 const applyText = (canvas, text) => {
 	const ctx = canvas.getContext('2d');
 
-	// Declare a base size of the font
 	let fontSize = 200;
 
 	do {
-		// Assign the font to the context and decrement it so it can be measured again
 		ctx.font = `${fontSize -= 10}px Rajdhani`;
-		// Compare pixel width of the text to the canvas minus the approximate avatar size
 	} while (ctx.measureText(text).width > canvas.width - 300);
-
-	// Return the result to use in the actual canvas
 	return ctx.font;
 };
 
