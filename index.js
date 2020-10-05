@@ -63,6 +63,7 @@ client.on('message', async message => {
 		if (guildSettings.leveling === 1) {
 			if (message.guild.id in stats === false) {
 				stats[message.guild.id]={};
+				jsonfile.writeFileSync('levels.json',stats);
 			}
 			const guildStats = stats[message.guild.id];
 		
