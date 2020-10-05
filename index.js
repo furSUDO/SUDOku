@@ -76,7 +76,7 @@ client.on('message', async message => {
 				};        
 			}
 			const userStats = guildStats[message.author.id]
-			if (Date.now()-userStats.last_message > 100) {
+			if (Date.now()-userStats.last_message > 60000) {
 				
 					userStats.xp += Math.floor(Math.random()*7)+8;
 					userStats.last_message = Date.now();
