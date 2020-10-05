@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
+const {token } = require('./config.json');
 const jsonfile = require ('jsonfile');
 
 const client = new Discord.Client({partials: ['MESSAGE','CHANNEL','REACTION']});
@@ -33,52 +33,66 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 client.once('ready', () => {
+	client.user.setStatus('available')
+    client.user.setActivity("with depression", {
+		type: "STREAMING",
+		url: "https://www.twitch.tv/furSUDO"
+	  });
 	console.log('Ready!');
 });
 
+client.on("guildMemberAdd", (member) => {
+	console.log(`New User "${member.user.username}" has joined "${member.guild.name}"` );
+  });
+
 client.on('message', async message => {
+	if (message.guild.id in settings === false) {
+		settings[message.guild.id]={
+			nsfw: 0,
+			leveling: 0,
+			botUpdates: 0,
+			prefix: "!"			
+		};
+		jsonfile.writeFileSync('settings.json',settings)
+	}
+	const guildSettings = settings[message.guild.id];
+	const prefix = guildSettings.prefix;
 	if (message.author.bot) return;
 	if (!message.content.startsWith(prefix)) {
-		if (message.guild.id in settings === false) {
-			settings[message.guild.id]={
-				nsfw: 0,
-				newsUpdates: 0,
-			};
-		}
-	
-		if (message.guild.id in stats === false) {
-			stats[message.guild.id]={};
-		}
-		const guildStats = stats[message.guild.id];
-	
-		if (message.author.id in guildStats === false) {
-			guildStats[message.author.id] = {
-				xp: 0,
-				level: 0,
-				last_message: 0,
-				background: 0
-			};        
-		}
 		
-		const userStats = guildStats[message.author.id]
+		if (guildSettings.leveling === 1) {
+			if (message.guild.id in stats === false) {
+				stats[message.guild.id]={};
+			}
+			const guildStats = stats[message.guild.id];
 		
-		if (Date.now()-userStats.last_message > 100) {
-			
-				userStats.xp += Math.floor(Math.random()*7)+500;
-				userStats.last_message = Date.now();
-			
-				const xpToNextLevel = 5 * Math.pow(userStats.level,2)+50*userStats.level;
-				if (userStats.xp >= xpToNextLevel) {
-					userStats.level++;
-					userStats.xp = userStats.xp - xpToNextLevel;
-					console.log(`${displayName(message)} has reached level ${userStats.level}`)
-				}
-			
-				jsonfile.writeFileSync('levels.json',stats)
+			if (message.author.id in guildStats === false) {
+				guildStats[message.author.id] = {
+					xp: 0,
+					level: 0,
+					last_message: 0,
+					background: 0
+				};        
+			}
+			const userStats = guildStats[message.author.id]
+			if (Date.now()-userStats.last_message > 100) {
 				
-				console.log(`${displayName(message)} now has ${userStats.xp}`);
-				console.log(`${xpToNextLevel} needed to lvl up`);
-			
+					userStats.xp += Math.floor(Math.random()*7)+500;
+					userStats.last_message = Date.now();
+				
+					const xpToNextLevel = 5 * Math.pow(userStats.level,2)+50*userStats.level;
+					if (userStats.xp >= xpToNextLevel) {
+						userStats.level++;
+						userStats.xp = userStats.xp - xpToNextLevel;
+						console.log(`${displayName(message)} has reached level ${userStats.level}`)
+					}
+				
+					jsonfile.writeFileSync('levels.json',stats)
+					
+					console.log(`${displayName(message)} now has ${userStats.xp}`);
+					console.log(`${xpToNextLevel} needed to lvl up`);
+				
+			}
 		}
 	} else {
 		
