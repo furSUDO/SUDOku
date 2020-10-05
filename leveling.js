@@ -6,7 +6,7 @@ const jsonfile = require ('jsonfile');
 const client = new Discord.Client({partials: ['MESSAGE','CHANNEL','REACTION']});
 client.commands = new Discord.Collection();
 
-//code to return DisplayName/username were needed
+//code to return DisplayName/username where needed
 const displayName = (message) => {
 	const dispName = message.member.nickname;
 	return dispName === null ? message.author.username : dispName;
@@ -34,7 +34,7 @@ const cooldowns = new Discord.Collection();
 
 client.once('ready', () => {
 	client.user.setStatus('available')
-    client.user.setActivity("with depression", {
+    client.user.setActivity(`for ${client.guilds.cache.size} servers!`, {
 		type: "STREAMING",
 		url: "https://www.twitch.tv/furSUDO"
 	  });
@@ -51,7 +51,7 @@ client.on('message', async message => {
 			nsfw: 0,
 			leveling: 0,
 			botUpdates: 0,
-			prefix: "!"			
+			prefix: "su!"			
 		};
 		jsonfile.writeFileSync('settings.json',settings)
 	}
