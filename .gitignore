@@ -2,7 +2,6 @@
 
 node_modules/
 
-commands/*.js
 
 config.json
 levels.json
