@@ -1,32 +1,70 @@
 const Discord = require('discord.js');
+
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 module.exports = {
 	name: 'embed',
 	description: 'Builds or edits an embed',
-    args: true,
-	execute(message, args) {
-        const inputArgs = Array.from(args);
-        const firstArg = inputArgs.shift();
+    args: false,
+	async execute(message) {
+					var exampleEmbed = {
+						color: 0x0099ff,
+						title: 'Some title',
+						url: 'https://discord.js.org',
+						author: {
+							name: 'Some name',
+							icon_url: 'https://i.imgur.com/wSTFkRM.png',
+							url: 'https://discord.js.org',
+						},
+						description: 'Some description here',
+						thumbnail: {
+							url: 'https://i.imgur.com/wSTFkRM.png',
+						},
+						fields: [
+							{
+								name: 'Regular field title',
+								value: 'Some value here',
+							},
+							{
+								name: '\u200b',
+								value: '\u200b',
+								inline: false,
+							},
+							{
+								name: 'Inline field title',
+								value: 'Some value here',
+								inline: true,
+							},
+							{
+								name: 'Inline field title',
+								value: 'Some value here',
+								inline: true,
+							},
+							{
+								name: 'Inline field title',
+								value: 'Some value here',
+								inline: true,
+							},
+						],
+						image: {
+							url: 'https://i.imgur.com/wSTFkRM.png',
+						},
+						timestamp: new Date(),
+						footer: {
+							text: 'Some footer text here',
+							icon_url: 'https://i.imgur.com/wSTFkRM.png',
+						},
+					};
+		
+		
+        message.channel.send({ embed: exampleEmbed });
+		await delay(5000);
+        var exampleEmbed = new Discord.MessageEmbed()
+	.setTitle('Some title')
+	.setDescription('Description after the edit');
 
-        switch (firstArg.toLowerCase()) {
-            case 'edit':
-                //return message.channel.send(`arg1: ${firstArg}\ntoString: ${inputArgs.join(' ')}`);
-                const filter = m => m.author.id === message.author.id;
-                message.channel.send(">>> What is the ID of the message you'd like to edit?").then(sent => {
-                    message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
-                        .then(collected => {
-                            message.channel.send(`>>> editing ${collected.first().content}`);
-                            sent.delete();
-                        })
-                        .catch(collected => {
-                            message.channel.send(`>>> You didn't provide me with an ID in time,\noperation canceled`);
-                        });
-                });
-                break;
-            case 'send':
-                return message.channel.send('send');
-
-                break;
-        }
+message.edit(exampleEmbed);
 
 		//message.channel.send(`First argument: ${args[0]}`);
 	},
