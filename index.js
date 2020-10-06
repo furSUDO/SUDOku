@@ -82,8 +82,9 @@ client.on("guildMemberAdd", (member) => {
 
 //start of main method
 client.on("message", async (message) => {
+    if (message.author.bot) return;
     //creates entry for server ID if it did not already exist
-    if (message.guild.id in settings === false) {
+    if (!(message.guild.id in settings)) {
         settings[message.guild.id] = {
             nsfw: 0,
             leveling: 0,
@@ -92,118 +93,120 @@ client.on("message", async (message) => {
         };
         jsonfile.writeFileSync("settings.json", settings);
     }
-    // Reads file again because I have no clue why it didn't work otherwise but this seems to fix the issue
-    // therefore I am going to leave it in and not attempt to fix it otherwise, but maybe if you are reading
-    // this and have big brain you can suggest a fix idk lol
+
+    // Reads file again because I have no clue why it didn't work otherwise but
+    // this seems to fix the issue therefore I am going to leave it in and not
+    // attempt to fix it otherwise, but maybe if you are reading this and have
+    // big brain you can suggest a fix idk lol
     settings = jsonfile.readFileSync("settings.json");
+
     const guildSettings = settings[message.guild.id];
     const prefix = guildSettings.prefix;
-    if (message.author.bot) return;
+
     //if message does not start with the prefix, execute level module, else execute command
-    if (!message.content.startsWith(prefix)) {
-        if (guildSettings.leveling === 1) {
-            if (message.guild.id in stats === false) {
-                stats[message.guild.id] = {};
-            }
-            const guildStats = stats[message.guild.id];
-
-            if (message.author.id in guildStats === false) {
-                guildStats[message.author.id] = {
-                    xp: 0,
-                    level: 0,
-                    last_message: 0,
-                    background: 0,
-                };
-            }
-            const userStats = guildStats[message.author.id];
-            if (Date.now() - userStats.last_message > 60000) {
-                userStats.xp += Math.floor(Math.random() * 7) + 8;
-                userStats.last_message = Date.now();
-
-                const xpToNextLevel =
-                    5 * Math.pow(userStats.level, 2) +
-                    50 * userStats.level +
-                    100;
-                if (userStats.xp >= xpToNextLevel) {
-                    userStats.level++;
-                    userStats.xp = userStats.xp - xpToNextLevel;
-                    message.channel.send(
-                        `${displayName(message)} has reached level ${
-                            userStats.level
-                        }`
-                    );
-                }
-
-                jsonfile.writeFileSync("levels.json", stats);
-
-                console.log(`${displayName(message)} now has ${userStats.xp}`);
-                console.log(`${xpToNextLevel} needed to lvl up`);
-            } else {
-                jsonfile.writeFileSync("levels.json", stats);
-            }
+    if (!message.content.startsWith(prefix) && guildSettings.leveling === 1) {
+        if (message.guild.id in stats === false) {
+            stats[message.guild.id] = {};
         }
-    } else {
-        //Logs message (for testing purposes)
-        console.log(message.content);
-        if (!message.content.startsWith(prefix) || message.author.bot) return;
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
-        const commandName = args.shift().toLowerCase();
+        const guildStats = stats[message.guild.id];
 
-        const command =
-            client.commands.get(commandName) ||
-            client.commands.find(
-                (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
-            );
-        if (!command) return;
-        //If command is marked as guildOnly, it will not work in DMs
-        if (command.guildOnly && message.channel.type === "dm") {
-            return message.reply("I can't execute that command inside DMs!");
-        }
-        //If command is marked that it is adminOnly, only members with the BAN_MEMBERS permission can run the command
-        if (command.adminOnly && !message.member.hasPermission("BAN_MEMBERS")) {
-            let reply = `You have insufficient permissions to run this command!`;
-            return message.reply(reply);
-        }
-        //If command is marked that it needs arguments, this will alert user to that fact
-        if (command.args && !args.length) {
-            let reply = `You didn't provide any arguments, ${message.author}!`;
-            if (command.usage) {
-                reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-            }
-            return message.channel.send(reply);
+        if (!(message.author.id in guildStats)) {
+            guildStats[message.author.id] = {
+                xp: 0,
+                level: 0,
+                last_message: 0,
+                background: 0,
+            };
         }
 
-        //If command has cooldown, this will enforce cooldown
-        if (!cooldowns.has(command.name)) {
-            cooldowns.set(command.name, new Discord.Collection());
-        }
-        const now = Date.now();
-        const timestamps = cooldowns.get(command.name);
-        const cooldownAmount = (command.cooldown || 3) * 1000;
-        if (timestamps.has(message.author.id)) {
-            const expirationTime =
-                timestamps.get(message.author.id) + cooldownAmount;
-            if (now < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000;
-                return message.reply(
-                    `please wait ${timeLeft.toFixed(
-                        1
-                    )} more second(s) before reusing the \`${
-                        command.name
-                    }\` command.`
+        const userStats = guildStats[message.author.id];
+        if (Date.now() - userStats.last_message > 60000) {
+            userStats.xp += Math.floor(Math.random() * 7) + 8;
+            userStats.last_message = Date.now();
+
+            const xpToNextLevel =
+                5 * Math.pow(userStats.level, 2) + 50 * userStats.level + 100;
+            if (userStats.xp >= xpToNextLevel) {
+                userStats.level++;
+                userStats.xp = userStats.xp - xpToNextLevel;
+                message.channel.send(
+                    `${displayName(message)} has reached level ${
+                        userStats.level
+                    }`
                 );
             }
-        }
-        timestamps.set(message.author.id, now);
-        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
-        //This executes the command
-        try {
-            command.execute(message, args, prefix);
-        } catch (error) {
-            console.error(error);
-            message.reply("there was an error trying to execute that command!");
+            console.log(`${displayName(message)} now has ${userStats.xp}`);
+            console.log(`${xpToNextLevel} needed to lvl up`);
         }
+        jsonfile.writeFileSync("levels.json", stats);
+
+        return;
+    }
+    //Logs message (for testing purposes)
+    console.log(message.content);
+
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const commandName = args.shift().toLowerCase();
+
+    const command =
+        client.commands.get(commandName) ||
+        client.commands.find(
+            (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+        );
+
+    if (!command) return;
+    //If command is marked as guildOnly, it will not work in DMs
+    if (command.guildOnly && message.channel.type === "dm") {
+        return message.reply("I can't execute that command inside DMs!");
+    }
+    //If command is marked that it is adminOnly, only members with the BAN_MEMBERS permission can run the command
+    if (command.adminOnly && !message.member.hasPermission("BAN_MEMBERS")) {
+        let reply = `You have insufficient permissions to run this command!`;
+        return message.reply(reply);
+    }
+    //If command is marked that it needs arguments, this will alert user to that fact
+    if (command.args && !args.length) {
+        let reply = `You didn't provide any arguments, ${message.author}!`;
+        if (command.usage) {
+            reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+        }
+        return message.channel.send(reply);
+    }
+
+    //If command has cooldown, this will enforce cooldown
+    if (!cooldowns.has(command.name)) {
+        cooldowns.set(command.name, new Discord.Collection());
+    }
+
+    const now = Date.now();
+    const timestamps = cooldowns.get(command.name);
+    const cooldownAmount = (command.cooldown || 3) * 1000;
+
+    if (timestamps.has(message.author.id)) {
+        const expirationTime =
+            timestamps.get(message.author.id) + cooldownAmount;
+        if (now < expirationTime) {
+            const timeLeft = (expirationTime - now) / 1000;
+            return message.reply(
+                `please wait ${timeLeft.toFixed(
+                    1
+                )} more second(s) before reusing the \`${
+                    command.name
+                }\` command.`
+            );
+        }
+    }
+
+    timestamps.set(message.author.id, now);
+    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+    //This executes the command
+    try {
+        command.execute(message, args, prefix);
+    } catch (error) {
+        console.error(error);
+        message.reply("there was an error trying to execute that command!");
     }
 });
 
