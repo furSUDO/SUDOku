@@ -10,3 +10,5 @@ fonts/*.ttf
 
 # Files
 *.json
+!package.json
+!package-lock.json
