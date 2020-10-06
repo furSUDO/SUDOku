@@ -110,7 +110,7 @@ client.on('message', async message => {
 					if (userStats.xp >= xpToNextLevel) {
 						userStats.level++;
 						userStats.xp = userStats.xp - xpToNextLevel;
-						console.log(`${displayName(message)} has reached level ${userStats.level}`)
+						message.channel.send(`${displayName(message)} has reached level ${userStats.level}`)
 					}
 					
 					jsonfile.writeFileSync('levels.json',stats)
