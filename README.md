@@ -32,7 +32,7 @@ to use the leveling commands, make sure to run ``su!module enable leveling`` in 
 
 While the main code is fully downloadable and editable, things like commands stay a secret
 
-## Running your own version of SUDOku
+## Running your own version of SUDOku 
 
 Running your own version, or using SUDOku as a base discord bot is as easy as cloning the repository, or downloading it as a zip.
 
