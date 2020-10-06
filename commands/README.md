@@ -7,12 +7,12 @@ however! This is how you can build your own:
 
 ```javascript
 module.exports = {
-	name: 'nameOfCommand',
-	description: 'Your name and filename should be the same',
+    name: 'nameOfCommand',
+    description: 'Your name and filename should be the same',
     args: true,
-	adminOnly: true,
-	async execute(message) {
-		message.channel.send(`First argument: ${args[0]}`);
+    adminOnly: true,
+    async execute(message) {
+        message.channel.send(`First argument: ${args[0]}`);
 	},
 };
 ```
