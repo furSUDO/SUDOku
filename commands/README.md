@@ -12,7 +12,7 @@ module.exports = {
     args: true,
 	adminOnly: true,
 	async execute(message) {
-	message.channel.send(`First argument: ${args[0]}`);
+		message.channel.send(`First argument: ${args[0]}`);
 	},
 };
 ```
