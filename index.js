@@ -16,7 +16,7 @@ const { token } = require("./config.json");
 //Discord partials, still need to use these
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"],});
 client.commands = new Discord.Collection();
-//test
+
 //reads files
 const commandFiles = fs
     .readdirSync("./commands")
