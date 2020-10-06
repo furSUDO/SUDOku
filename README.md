@@ -6,23 +6,27 @@
 
 SUDOku is a general purpose discord bot for furries
 
-_You can invite SUDOku to your server by clicking on this button:_
-
-<button onclick="window.location.href='https://discord.com/oauth2/authorize?client_id=612745923575021573&scope=bot&permissions=8'" style="background-color:#7288da;color:white;border-radius: 6px;">Big Fat Button</button>
-
-[Or click here](https://discord.com/oauth2/authorize?client_id=612745923575021573&scope=bot&permissions=8)
+_You can invite SUDOku to your server by clicking on [this link!](https://discord.com/oauth2/authorize?client_id=612745923575021573&scope=bot&permissions=8)_
 
 ## Commands
 ![SUDOku Commands](https://github.com/furSUDO/SUDOku/blob/master/github/commands.png?raw=true)
 As SUDOku is still in active development, new commands are added all the time, however you may not be able to view some of them, because they are secret ;p
 
 Here is a list of active commands
-
-| command | usage | description |
-|---------|-------|-------------|
+### General commands
+| command | usage | description | aliases |
+|---------|-------|-------------|---------|
 | prefix  |``su!prefix``|changes the prefix of the bot|
-|         |       |             |
-|         |       |             |
+| module  | ``su!module enable/disable {module name}`` | Enable/Disable the NSFW, leveling and Bot Updates module |
+### Leveling Commands
+to use the leveling commands, make sure to run ``su!module enable leveling`` in your server!
+| command | aliases | usage | description |
+|---------|---------|-------|-------------|
+|profile|``na``|``su!profile``|Displays the user's server level|
+|setbackground|``setprofile``|``su!setbackground {number between 0 and 15}``|Allows the user to customize their background|
+### e621 and e926 commands
+
+
 
 ## SUDOku is open source... kinda?
 
