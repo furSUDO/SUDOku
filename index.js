@@ -88,12 +88,6 @@ client.on("message", async (message) => {
         jsonfile.writeFileSync("settings.json", settings);
     }
 
-    // Reads file again because I have no clue why it didn't work otherwise but
-    // this seems to fix the issue therefore I am going to leave it in and not
-    // attempt to fix it otherwise, but maybe if you are reading this and have
-    // big brain you can suggest a fix idk lol
-    settings = jsonfile.readFileSync("settings.json");
-
     const guildSettings = settings[message.guild.id];
     const prefix = guildSettings.prefix;
 
@@ -188,7 +182,7 @@ client.on("message", async (message) => {
 
     //This executes the command
     try {
-        command.execute(message, args, prefix);
+        command.execute(message, args, prefix, settings);
     } catch (error) {
         console.error(error);
         message.reply("there was an error trying to execute that command!");
