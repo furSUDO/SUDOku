@@ -124,6 +124,8 @@ client.on("message", async (message) => {
                 userStats.level++;
                 userStats.xp = userStats.xp - xpToNextLevel;
                 message.channel.send(`${displayName(message)} has reached level ${userStats.level}`);
+                //sends a gif if user reaches level 69
+                if (userStats.level = 69) message.channel.send(`https://tenor.com/view/nice-gif-10653491`)
             }
 
             if (SUdebugMode) console.log(`${displayName(message)} now has ${userStats.xp}\n${xpToNextLevel} needed to lvl up\nMessage: ${message.content}`);
