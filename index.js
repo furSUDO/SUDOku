@@ -3,15 +3,15 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const jsonfile = require("jsonfile");
 
-//creates config file to hold bot token
+//creates config file to hold bot token and optional debug mode
 var config = {};
 if (!fs.existsSync("config.json")) {
-    config = { token: "your token here" };
+    config = {token:"your token here",SUdebugMode:false};
     jsonfile.writeFileSync("config.json", config);
     console.log(`You have started the bot for the first time, please edit the config.json file and add your token in the space provided`);
     return;
 }
-const { token } = require("./config.json");
+const {token,SUdebugMode} = require("./config.json");
 
 //Discord partials, still need to use these
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"],});
@@ -71,7 +71,7 @@ client.on("guildCreate", (guild) => {
 
 //logs when a new member joins a guild, this is for testing purposes
 client.on("guildMemberAdd", (member) => {
-    console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
+    if (SUdebugMode) console.log(`New User "${member.user.username}" has joined "${member.guild.name}"`);
 });
 
 //start of main method
@@ -126,15 +126,14 @@ client.on("message", async (message) => {
                 message.channel.send(`${displayName(message)} has reached level ${userStats.level}`);
             }
 
-            console.log(`${displayName(message)} now has ${userStats.xp}`);
-            console.log(`${xpToNextLevel} needed to lvl up`);
+            if (SUdebugMode) console.log(`${displayName(message)} now has ${userStats.xp}\n${xpToNextLevel} needed to lvl up\nMessage: ${message.content}`);
         }
         jsonfile.writeFileSync("levels.json", stats);
 
         return;
     }
     //Logs message (for testing purposes)
-    console.log(message.content);
+    if (SUdebugMode) console.log(`${displayName.message}: ${message.content}`);
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
