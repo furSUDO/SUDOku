@@ -4,6 +4,7 @@
 node_modules/
 commands/*.js
 !commands/example.js
+!commands/prefix.js
 assets/*.png
 events/*.js
 fonts/*.ttf
